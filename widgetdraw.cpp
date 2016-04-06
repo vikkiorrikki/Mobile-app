@@ -43,12 +43,9 @@ void widgetDraw::generateRandomCells()
     update();
 }
 
-void widgetDraw::reCells( int c)
+void widgetDraw::reCells()
 {
    deleteCells();
-
-   rows *= c;
-   cols *= c;
    cells = new bool*[rows];
 
    for(int r = 0; r < rows; r++)

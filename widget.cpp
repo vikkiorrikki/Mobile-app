@@ -19,10 +19,13 @@ Widget::~Widget()
 
 void Widget::on_pushButton_3_clicked()
 {
-    int c;
-    c = ui->spinBox->value();
-
-    ui->drawWidget->reCells(c);
+    if(isTimer)
+    {
+        ui->pushButton->setText("Start");
+        isTimer = false;
+        timer->stop();
+    }
+    ui->drawWidget->reCells();
     ui->drawWidget->repaint();
 }
 
@@ -46,5 +49,11 @@ void Widget::on_pushButton_clicked()
 
 void Widget::on_pushButton_2_clicked()
 {
+
     ui->drawWidget->generateRandomCells();
+}
+
+void Widget::on_pushButton_4_clicked()
+{
+    this->close();
 }

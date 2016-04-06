@@ -25,7 +25,7 @@ public:
 signals:
 
 public slots:
-    void reCells( int c);
+    void reCells();
     void solve();
     void generateRandomCells();
 };
