@@ -3,8 +3,8 @@
 #include <qmath.h>
 widgetDraw::widgetDraw(QWidget *parent) : QWidget(parent)
 {
-    rows = 16;
-    cols = 9;
+    rows = 40;
+    cols = 28;
     cells = new bool*[rows];
     for(int r = 0; r < rows; r++)
     {
@@ -89,8 +89,11 @@ void widgetDraw::paintEvent(QPaintEvent *)
     paint = new QPainter(this);
     width = rect.width();
     height = rect.height();
+
     a = width/cols;
     b = height/rows;
+
+
     //qDebug()<<a*cols<<" "<< width<< " "<< a;
     //qDebug()<<b*rows<<" "<< height<< " "<< b;
     paint->setPen(QPen(QColor(Qt::white)));

@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/fonts">
+        <file alias="img">smaller.fon</file>
+    </qresource>
+    <qresource prefix="/img">
+        <file alias="title">title.png</file>
+    </qresource>
+</RCC>

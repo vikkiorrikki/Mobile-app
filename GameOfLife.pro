@@ -20,3 +20,6 @@ HEADERS  += widget.h \
     widgetdraw.h
 
 FORMS    += widget.ui
+
+RESOURCES += \
+    res/res.qrc
