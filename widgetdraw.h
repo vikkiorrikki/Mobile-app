@@ -11,6 +11,7 @@ class widgetDraw : public QWidget
     Q_OBJECT
 
 private:
+    bool isSandbox;
     int rows, cols;
     bool **cells;
     void deleteCells();

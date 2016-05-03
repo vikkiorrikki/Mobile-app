@@ -3,7 +3,12 @@
 
 #include <QWidget>
 #include <widgetdraw.h>
+#include <levels.h>
 #include <QTimer>
+#include <QVector>
+#include <QFile>
+#include <QtXml>
+
 
 namespace Ui {
 class Widget;
@@ -13,9 +18,11 @@ class Widget : public QWidget
 {
     Q_OBJECT
 private:
+    QVector<Levels*> levels;
     bool isTimer;
     QTimer *timer;
-
+    void parseXml();
+    void parseLevel(const QDomNode& node);
 public:
     explicit Widget(QWidget *parent = 0);
 
