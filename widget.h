@@ -3,11 +3,12 @@
 
 #include <QWidget>
 #include <widgetdraw.h>
-#include <levels.h>
+
 #include <QTimer>
 #include <QVector>
 #include <QFile>
 #include <QtXml>
+#include <QListWidget>
 
 
 namespace Ui {
@@ -18,7 +19,7 @@ class Widget : public QWidget
 {
     Q_OBJECT
 private:
-    QVector<Levels*> levels;
+
     bool isTimer;
     QTimer *timer;
     void parseXml();
@@ -44,6 +45,17 @@ private slots:
     void on_pushButton_5_clicked();
 
     void on_pushButton_8_clicked();
+
+    void on_pushButton_menu_clicked();
+
+    void changedStok(int val);
+    void changedLevel(int id, int pop, int gen, int start);
+    void changedCells(int pop, int gen);
+    void succes();
+    void unsucces();
+    void on_pushButton_game_clicked();
+
+    void on_list_levels_itemDoubleClicked(QListWidgetItem *item);
 
 private:
     Ui::Widget *ui;

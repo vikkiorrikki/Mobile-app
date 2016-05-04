@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui xml
 
 QT += widgets
 
@@ -14,10 +14,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         widget.cpp \
-    widgetdraw.cpp
+    widgetdraw.cpp \
+    levels.cpp
 
 HEADERS  += widget.h \
-    widgetdraw.h
+    widgetdraw.h \
+    levels.h
 
 FORMS    += widget.ui
 

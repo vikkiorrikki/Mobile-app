@@ -4,17 +4,19 @@ Levels::Levels()
 {
 
 }
-Levels::Levels(int new_id, int new_population, int new_generation, int** new_cells, bool new_result, int new_start)
+Levels::Levels(int new_id, int new_population, int new_generation, QString new_cells, bool new_result, int new_start)
 {
     id = new_id;
     population = new_population;
     generation = new_generation;
     result = new_result;
-    cells = new_cells;
     start = new_start;
+    QStringList list = new_cells.split(" ");
+    cells = list.toVector();
+
 }
 
-int** Levels::getCells()
+const QVector<QString> &Levels::getCells()
 {
     return cells;
 }

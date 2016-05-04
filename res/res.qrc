@@ -4,6 +4,7 @@
     </qresource>
     <qresource prefix="/img">
         <file alias="title">title.png</file>
+        <file alias="title2">title2.PNG</file>
     </qresource>
     <qresource prefix="/lvl">
         <file alias="levels">levels.xml</file>

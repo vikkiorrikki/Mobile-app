@@ -1,4 +1,8 @@
 <levels>
     <level id="1" start="1" population="3" generation="10" cells="10 10 10 12" result="0"/>
     <level id="2" start="4" population="16" generation="10" cells="10 5 11 5 10 20 10 21 30 5 30 6 30 20 31 20" result="0"/>
+    <level id="3" start="1" population="0" generation="5" cells="11 7 11 8 12 7 12 8" result="0"/>
+    <level id="4" start="2" population="12" generation="20" cells="20 14 21 13 21 15" result="0"/>
+    <level id="5" start="3" population="24" generation="20" cells="20 13 21 13 20 15 21 15" result="0"/>
+    <level id="6" start="3" population="10" generation="1" cells="5 5 5 7 10 13 10 14 30 20 31 21" result="0"/>
 </levels>
