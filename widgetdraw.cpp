@@ -14,12 +14,25 @@ widgetDraw::widgetDraw(QWidget *parent) : QWidget(parent)
     for(int r = 0; r< rows; r++)
         for(int c = 0; c<cols; c++)
             cells[r][c] = false;
+    timer = new QTimer();
+    connect(timer, SIGNAL(timeout()), this, SLOT(solve()));
 }
+void widgetDraw::start()
+{
+    timer->setInterval(500);
+    timer->start();
+    generation = levels.at(current_level)->getGeneration();
+}
+
 void widgetDraw::deleteCells()
 {
     for (int i = 0; i<rows; i++)
             delete [] cells[i];
     delete [] cells;
+}
+void widgetDraw::setTempl(const QVector<QString> &_templ)
+{
+
 }
 
 void widgetDraw::generateRandomCells()
@@ -40,6 +53,24 @@ void widgetDraw::generateRandomCells()
     {
         cells[rand()%rows][rand()%cols] = !cells[rand()%rows][rand()%cols];
     }
+    update();
+}
+void widgetDraw::setCurrentLevel(int val)
+{   reCells();
+    current_level = val;
+    stock = levels.at(val)->getStart();
+    if(!isSandbox)
+    {
+        for(int i = 0; i < levels.at(val)->getCells().size(); i = i+2)
+        {
+            int k, l;
+            k = levels.at(val)->getCells().at(i).toInt();
+            l = levels.at(val)->getCells().at(i+1).toInt();
+            cells[k][l] = true;
+        }
+    }
+
+    emit changedLevel(levels.at(val)->getId(), levels.at(val)->getPopulation(), levels.at(val)->getGeneration(), levels.at(val)->getStart());
     update();
 }
 
@@ -75,15 +106,49 @@ void widgetDraw::mousePressEvent(QMouseEvent *press)
 
     i = pos.y()/a;
     j = pos.x()/b;
-    cells[i][j] = !cells[i][j];
-    this->update();
+
+    if(!isSandbox)
+    {
+            for(int ii = 0; ii < levels.at(current_level)->getCells().size(); ii = ii+2)
+            {
+                int k, l;
+                k = levels.at(current_level)->getCells().at(ii).toInt();
+                l = levels.at(current_level)->getCells().at(ii+1).toInt();
+                qDebug()<<i<<" "<<j<<" "<<k<<" "<<l;
+                if( i == k && j == l )
+                    return;
+            }
+
+        if(stock > 0 )
+        {
+            if(!cells[i][j])
+                emit changedStock(--stock);
+            else
+                emit changedStock(++stock);
+
+            cells[i][j] = !cells[i][j];
+        }
+        else if(stock == 0 && cells[i][j])
+        {
+            emit changedStock(++stock);
+            cells[i][j] = !cells[i][j];
+        }
+        this->update();
+     }
+    else
+    {
+       cells[i][j] = !cells[i][j];
+       this->update();
+    }
 }
+
 
 void widgetDraw::paintEvent(QPaintEvent *)
 {
     QPainter *paint;
     int width, height, a, b;
     QRect rect;
+    int count = 0;
 
     rect = this->rect();
     paint = new QPainter(this);
@@ -93,9 +158,6 @@ void widgetDraw::paintEvent(QPaintEvent *)
     a = width/cols;
     b = height/rows;
 
-
-    //qDebug()<<a*cols<<" "<< width<< " "<< a;
-    //qDebug()<<b*rows<<" "<< height<< " "<< b;
     paint->setPen(QPen(QColor(Qt::white)));
     paint->setBrush(QBrush(Qt::black));
     for(int y = 0, i = 0; i < rows; y += b, i++)
@@ -104,18 +166,50 @@ void widgetDraw::paintEvent(QPaintEvent *)
         {
             if(!cells[i][j])
                 paint->setBrush(QBrush(Qt::black));
-            else
+            else{
                paint->setBrush(QBrush(Qt::red));
+                count++;
+            }
             paint->drawRect(x, y, a, b);
 
         }
     }
+    popul = count;
     delete paint;
+}
+void widgetDraw::result()
+{
+    int count = 0;
+    for(int i = 0; i < rows; i++)
+        for(int j = 0; j < cols; j++)
+            if(cells[i][j]) count++;
+    if (count == levels.at(current_level)->getPopulation())
+        emit succes();
+    else
+    {
+        emit unsucces();
+    }
 }
 
 void widgetDraw::solve()
 {
+    if(!isSandbox)
+    {
+        --generation;
+        int count = 0;
+        for(int i = 0; i < rows; i++)
+            for(int j = 0; j < cols; j++)
+                if(cells[i][j]) count++;
+        emit changedCells(count, generation);
 
+        if(generation < 0 || count == 0)
+        {
+            timer->stop();
+            result();
+            return;
+        }
+
+    }
     bool** tmp;
     tmp = new bool*[rows];
     int changed = 0;
